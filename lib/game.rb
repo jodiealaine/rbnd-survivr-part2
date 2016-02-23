@@ -6,7 +6,6 @@ class Game
 		add_tribe tribe1
 		add_tribe tribe2
 	end
-
 	def add_tribe tribe
 		@tribes << tribe
 	end
