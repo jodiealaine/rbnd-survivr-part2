@@ -19,34 +19,79 @@ require_relative "jury"
 
 
 #This is where you will write your code for the three phases
-def phase_one
-	num = 0
 
+def phase_one
+	#The game starts with 20 contestants, broken up evenly into two tribes of 10 contestants.
+	puts "Welcome to the start of Survivr!\n\n"
+	puts "OVERVIEW\n\n"
+	puts "The game starts with 20 contestants, broken up evenly into two tribes of 10 contestants."
+	puts "TRIBE #{@coyopa.name.upcase}:"
+	@coyopa.members.each {|contestant| puts contestant}
+	puts "TRIBE #{@hunapu.name.upcase}:"
+	@hunapu.members.each {|contestant| puts contestant}
+
+	# The tribes compete in 8 challenges against each 
+	# other in an immunity challenge. 
+	num = 0
 	8.times do
-  	puts "Challenge #{num += 1}"
+  	puts "** Challenge #{num += 1} **\n\n"
+  	
+  	#There is a losing tribe every time.
   	losing_tribe = @borneo.immunity_challenge
 		puts "#{losing_tribe} lost"
-		puts "TRIBAL COUNCIL"
+  
+	  # One contestant from the losing tribe is eliminated after every 
+	  # challenge at what is called a “Tribal Council”
+	  puts "TRIBAL COUNCIL"
 	  elemenated_member = losing_tribe.tribal_council
 		puts "#{elemenated_member} was elementated"
 	end
 
 	puts "-- END OF PHASE 1 --\n\n"
 	puts "MERGE TRIBES\n\n"
-	new_combined_tribe = @borneo.merge "Merged Tribe"
+	
+	#This is when they merge together into a single new tribe.
+	@single_tribe = @borneo.merge "Merged Tribe"
 	puts ""
-	puts "Tribes have been merged into one tribe of #{new_combined_tribe.members.length}"
+	
+	#At the end of phase one, there are a total of 12 remaining contestants. 
+	puts "Tribes have been merged into one tribe of #{@single_tribe.members.length}"
 	puts "Tribe members".upcase
-	new_combined_tribe.members.each {|contestent| puts contestent.name}
+	@single_tribe.members.each {|contestant| puts contestant.name}
 	puts ""
 	puts "-----------------"
 	puts "Now onto Phase 2 -->"
 	
-	return num
+	num
 end
 
 def phase_two
-	3
+	puts "PHASE TWO\n"
+	num = 0
+	#The single tribe of 12 contestants compete in 3 additional individual immunity challenges.
+	3.times do
+		puts "** Challenge #{num += 1} **\n\n"
+
+		#The individual winner of every challenge is immune from being eliminated.
+  	winning_contestant = @borneo.individual_immunity_challenge
+		puts "#{winning_contestant} won and is immune from being eliminated"
+		puts "TRIBAL COUNCIL"
+
+		#One contestant is eliminated after every challenge.
+	  elemenated_contestant = @single_tribe.tribal_council winning_contestant
+		puts "#{elemenated_contestant} was elementated"
+	end
+
+	
+	puts "-- END OF PHASE 2 --\n\n"
+	#After 3 eliminations, there are 9 remaining contestants.
+	puts "After 3 eliminations, there are #{@single_tribe.members.length} remaining contestants:\n\n"
+	puts "Tribe members".upcase
+	@single_tribe.members.each {|contestant| puts contestant.name}
+	puts ""
+	puts "-----------------"
+	puts "Now onto Phase 3 -->"
+	num
 end
 
 def phase_three
@@ -54,6 +99,7 @@ def phase_three
 end
 
 phase_one
+phase_two
 
 # If all the tests pass, the code below should run the entire simulation!!
 #=========================================================
