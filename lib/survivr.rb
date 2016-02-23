@@ -48,16 +48,6 @@ def phase_one
 	end
 
 	puts "-- END OF PHASE 1 --\n\n"
-	puts "MERGE TRIBES\n\n"
-	
-	#This is when they merge together into a single new tribe.
-	@single_tribe = @borneo.merge "Merged Tribe"
-	puts ""
-	
-	#At the end of phase one, there are a total of 12 remaining contestants. 
-	puts "Tribes have been merged into one tribe of #{@single_tribe.members.length}"
-	puts "Tribe members".upcase
-	@single_tribe.members.each {|contestant| puts contestant.name}
 	puts ""
 	puts "-----------------"
 	puts "Now onto Phase 2 -->"
@@ -78,16 +68,15 @@ def phase_two
 		puts "TRIBAL COUNCIL"
 
 		#One contestant is eliminated after every challenge.
-	  elemenated_contestant = @single_tribe.tribal_council winning_contestant
+	  elemenated_contestant = @merge_tribe.tribal_council winning_contestant
 		puts "#{elemenated_contestant} was elementated"
 	end
 
-	
 	puts "-- END OF PHASE 2 --\n\n"
 	#After 3 eliminations, there are 9 remaining contestants.
-	puts "After 3 eliminations, there are #{@single_tribe.members.length} remaining contestants:\n\n"
+	puts "After 3 eliminations, there are #{@merge_tribe.members.length} remaining contestants:\n\n"
 	puts "Tribe members".upcase
-	@single_tribe.members.each {|contestant| puts contestant.name}
+	@merge_tribe.members.each {|contestant| puts contestant.name}
 	puts ""
 	puts "-----------------"
 	puts "Now onto Phase 3 -->"
@@ -95,20 +84,51 @@ def phase_two
 end
 
 def phase_three
-	7
+	#In phase three, there are 7 more challenges with an “immune” winner, as in the previous rounds.
+	#However, each contestant that is eliminated during these challenges is set aside to another group, known as the jury.
+	#This leaves 2 finalists and 7 jury members.
+	num = 0
+	7.times do
+		puts
+		puts "** Challenge #{num += 1} **\n\n"
+
+		#The individual winner of every challenge is immune from being eliminated.
+  	winning_contestant = @borneo.individual_immunity_challenge
+		puts "#{winning_contestant} won and is immune from being eliminated"
+		puts "TRIBAL COUNCIL"
+
+		#One contestant is eliminated after every challenge.
+	  elemenated_contestant = @merge_tribe.tribal_council winning_contestant
+	  @jury.add_member elemenated_contestant
+		puts "#{elemenated_contestant} was elementated and added to the Jury"
+	end
+
+	puts ""
+	puts "Our finalists are:".upcase
+	@merge_tribe.members.each {|contestant| puts contestant}
+	puts ""
+
+	puts "Our jury is:".upcase
+	@jury.members.each {|juror| puts juror}
+	puts ""
+	puts "-----------------"
+	puts "Now onto Final Stage -->"
+	num
 end
 
-phase_one
-phase_two
+# To run phase 1 - 3
+# phase_one
+# phase_two
+# phase_three
 
 # If all the tests pass, the code below should run the entire simulation!!
 #=========================================================
-# # phase_one #8 eliminations
-# @merge_tribe = @borneo.merge("Cello") # After 8 eliminations, merge the two tribes together
-# # phase_two #3 more eliminations
-# @jury = Jury.new
-# # phase_three #7 elminiations become jury members
-# finalists = @merge_tribe.members #set finalists
-# vote_results = @jury.cast_votes(finalists) #Jury members report votes
-# @jury.report_votes(vote_results) #Jury announces their votes
-# @jury.announce_winner(vote_results) #Jury announces final winner
+phase_one #8 eliminations
+@merge_tribe = @borneo.merge("Cello") # After 8 eliminations, merge the two tribes together
+phase_two #3 more eliminations
+@jury = Jury.new
+phase_three #7 elminiations become jury members
+finalists = @merge_tribe.members #set finalists
+vote_results = @jury.cast_votes(finalists) #Jury members report votes
+@jury.report_votes(vote_results) #Jury announces their votes
+@jury.announce_winner(vote_results) #Jury announces final winner

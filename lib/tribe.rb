@@ -10,7 +10,7 @@ class Tribe
 		@name
 	end
 	def tribal_council immune=""
-		not_immune = tribe_members_not_immune immune
+		not_immune = (tribe_members_not_immune immune).compact
 		voted_out = randomize_tribal_member not_immune
 		@members.delete_if{|member| member == voted_out}
 		voted_out

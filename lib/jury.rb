@@ -23,9 +23,9 @@ class Jury
 		vote_options[rand(vote_options.length)]
 	end
 	def report_votes final_votes
-		final_votes.each {|contestent,votes| puts "#{contestent}: #{votes}"}
+		final_votes.each {|contestant,votes| puts "#{contestant}: #{votes}"}
 	end
 	def announce_winner final_votes
-		final_votes.max_by{|contestent,votes| votes}[0]
+		p final_votes.max_by{|contestant,votes| votes}[0]
 	end
 end
