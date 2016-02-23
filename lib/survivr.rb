@@ -2,6 +2,7 @@ require_relative "game"
 require_relative "tribe"
 require_relative "contestant"
 require_relative "jury"
+require "colorizr"
 
 #After your tests pass, uncomment this code below
 #=========================================================
@@ -25,9 +26,9 @@ def phase_one
 	puts "Welcome to the start of Survivr!\n\n"
 	puts "OVERVIEW\n\n"
 	puts "The game starts with 20 contestants, broken up evenly into two tribes of 10 contestants."
-	puts "TRIBE #{@coyopa.name.upcase}:"
+	puts "TRIBE #{@coyopa.name.upcase}:".blue
 	@coyopa.members.each {|contestant| puts contestant}
-	puts "TRIBE #{@hunapu.name.upcase}:"
+	puts "TRIBE #{@hunapu.name.upcase}:".pink
 	@hunapu.members.each {|contestant| puts contestant}
 
 	# The tribes compete in 8 challenges against each 
@@ -38,13 +39,13 @@ def phase_one
   	
   	#There is a losing tribe every time.
   	losing_tribe = @borneo.immunity_challenge
-		puts "#{losing_tribe} lost"
+		puts "#{losing_tribe} lost".red
   
 	  # One contestant from the losing tribe is eliminated after every 
 	  # challenge at what is called a “Tribal Council”
 	  puts "TRIBAL COUNCIL"
 	  elemenated_member = losing_tribe.tribal_council
-		puts "#{elemenated_member} was elementated"
+		puts "#{elemenated_member} was elementated".red
 	end
 
 	puts "-- END OF PHASE 1 --\n\n"
@@ -64,12 +65,12 @@ def phase_two
 
 		#The individual winner of every challenge is immune from being eliminated.
   	winning_contestant = @borneo.individual_immunity_challenge
-		puts "#{winning_contestant} won and is immune from being eliminated"
+		puts "#{winning_contestant} won and is immune from being eliminated".green
 		puts "TRIBAL COUNCIL"
 
 		#One contestant is eliminated after every challenge.
 	  elemenated_contestant = @merge_tribe.tribal_council winning_contestant
-		puts "#{elemenated_contestant} was elementated"
+		puts "#{elemenated_contestant} was elementated".red
 	end
 
 	puts "-- END OF PHASE 2 --\n\n"
@@ -94,13 +95,13 @@ def phase_three
 
 		#The individual winner of every challenge is immune from being eliminated.
   	winning_contestant = @borneo.individual_immunity_challenge
-		puts "#{winning_contestant} won and is immune from being eliminated"
+		puts "#{winning_contestant} won and is immune from being eliminated".green
 		puts "TRIBAL COUNCIL"
 
 		#One contestant is eliminated after every challenge.
 	  elemenated_contestant = @merge_tribe.tribal_council winning_contestant
 	  @jury.add_member elemenated_contestant
-		puts "#{elemenated_contestant} was elementated and added to the Jury"
+		puts "#{elemenated_contestant} was elementated and added to the Jury".yellow
 	end
 
 	puts ""
@@ -115,11 +116,6 @@ def phase_three
 	puts "Now onto Final Stage -->"
 	num
 end
-
-# To run phase 1 - 3
-# phase_one
-# phase_two
-# phase_three
 
 # If all the tests pass, the code below should run the entire simulation!!
 #=========================================================
